@@ -13,7 +13,7 @@ public class UserInfoController {
 
   // TODO
   @PostMapping(value = "/signin")
-  public String login(
+  public String signIn(
       @RequestBody String body
   ) {
 
@@ -22,7 +22,7 @@ public class UserInfoController {
 
   // TODO
   @PostMapping(value = "/signout")
-  public String logout() {
+  public String signOut() {
     return null;
   }
 
