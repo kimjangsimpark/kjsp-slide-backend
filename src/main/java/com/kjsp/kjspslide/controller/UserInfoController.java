@@ -1,6 +1,8 @@
 package com.kjsp.kjspslide.controller;
 
+import com.google.gson.Gson;
 import com.kjsp.kjspslide.constant.MediaTypeConstant;
+import com.kjsp.kjspslide.entity.UserInfo;
 import com.kjsp.kjspslide.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,8 +41,10 @@ public class UserInfoController {
   // TODO
   @PostMapping(value = "/signup")
   public String signUp(
-      @RequestBody String body
+      @RequestBody String body // "{"name":"John", "age":"20"}"
   ) {
+    Gson gson = new Gson(); // Gson 객체 생성
+    UserInfo userInfo = gson.fromJson(body, UserInfo.class);
     return null;
   }
 }
