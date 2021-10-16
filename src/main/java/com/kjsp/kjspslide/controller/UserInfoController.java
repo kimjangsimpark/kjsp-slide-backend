@@ -1,10 +1,14 @@
 package com.kjsp.kjspslide.controller;
 
-import com.google.gson.Gson;
-import com.kjsp.kjspslide.constant.MediaTypeConstant;
-import com.kjsp.kjspslide.entity.UserInfo;
-import com.kjsp.kjspslide.repository.UserInfoRepository;
+import com.kjsp.kjspslide.dto.JwtDto;
+import com.kjsp.kjspslide.dto.UserDto;
+import com.kjsp.kjspslide.dto.UserDto.Request;
+import com.kjsp.kjspslide.service.UserAuthService;
+import com.kjsp.kjspslide.service.UserService;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,39 +16,50 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping(value = "/api/user", produces = MediaTypeConstant.APPLICATION_REST_JSON_VALUE)
+@RequestMapping(value = "/api/user")
 public class UserInfoController {
-  private final UserInfoRepository userInfoRepository;
+
+  private final UserAuthService userAuthService;
+  private final UserService userService;
 
   @Autowired
   public UserInfoController(
-    UserInfoRepository userInfoRepository
+      UserAuthService userAuthService,
+      UserService userService
   ) {
-    this.userInfoRepository = userInfoRepository;
+    this.userAuthService = userAuthService;
+    this.userService = userService;
   }
 
-  // TODO
+  @PostMapping(value = "/info")
+  public ResponseEntity<UserDto.Response> getuserInfo(
+      HttpServletRequest httpServletRequest
+  ) {
+    UserDto.Response responseDto = userService.getUserInfo((String) httpServletRequest.getAttribute("subject"));
+    if (responseDto != null) {
+      return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
   @PostMapping(value = "/signin")
-  public String signIn(
-      @RequestBody String body
+  public ResponseEntity<JwtDto.Response> signIn(
+      @RequestBody UserDto.Request userDto
   ) {
+    boolean isSuccess = userService.validateUserPassword(userDto);
+    if (isSuccess) {
+      String token = userAuthService.createToken(userDto);
+      return new ResponseEntity<>(JwtDto.Response.builder().accessToken(token).tokenType("Bearer").build(), HttpStatus.OK);
+    }
 
-    return null;
+    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
-  // TODO
-  @PostMapping(value = "/signout")
-  public String signOut() {
-    return null;
-  }
-
-  // TODO
   @PostMapping(value = "/signup")
-  public String signUp(
-      @RequestBody String body // "{"name":"John", "age":"20"}"
+  public ResponseEntity<Object> signUp(
+      @RequestBody Request userDto // "{"userName":"수영", "userPassword":"test1234"}"
   ) {
-    Gson gson = new Gson(); // Gson 객체 생성
-    UserInfo userInfo = gson.fromJson(body, UserInfo.class);
-    return null;
+    return new ResponseEntity<>(userService.saveUserInfo(userDto));
   }
 }

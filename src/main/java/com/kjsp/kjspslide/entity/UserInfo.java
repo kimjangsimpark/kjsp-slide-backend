@@ -6,11 +6,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@Builder
 @Entity
-@Table(name = "user_info")
+@Table(name = "USER_INFO")
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserInfo {
 
   // 기본키 매핑
@@ -18,6 +26,9 @@ public class UserInfo {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "USER_ID", nullable = false)
   private Long userId;
+
+  @Column(name = "SALT", nullable = false)
+  private String salt;
 
   @Column(name = "USER_NAME", nullable = false)
   private String userName;
@@ -30,6 +41,5 @@ public class UserInfo {
 
   @Column(name = "USER_PHONE", nullable = false)
   private String userPhone;
-
 
 }
