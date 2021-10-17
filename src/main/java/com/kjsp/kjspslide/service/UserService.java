@@ -59,7 +59,7 @@ public class UserService {
 
     try {
       UserInfo userInfo = userInfoRepository.findUserInfoByUserEmail(userDto.getUserEmail());
-      if(userInfo.getUserEmail().equals(userDto.getUserEmail())) {
+      if (userInfo.getUserEmail().equals(userDto.getUserEmail())) {
         return HttpStatus.BAD_REQUEST;
       }
 

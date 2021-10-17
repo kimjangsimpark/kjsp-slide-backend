@@ -88,7 +88,7 @@ public class UserInfoController {
               .userInfo(userInfo)
               .accessToken(token.get(JwtConstant.JWT_ACCESS_TOKEN_TEXT))
               .refreshToken(token.get(JwtConstant.JWT_REFRESH_TOKEN_TEXT))
-              .tokenType("Bearer").build(),
+              .tokenType(JwtConstant.JWT_TOKEN_TYPE).build(),
           HttpStatus.OK);
     }
 
