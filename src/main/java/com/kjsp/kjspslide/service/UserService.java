@@ -26,7 +26,8 @@ public class UserService {
     try {
       UserInfo userInfo = userInfoRepository.findUserInfoByUserEmail(userDto.getUserEmail());
       String salt = userInfo.getSalt();
-      String tempPassword = hashing(userDto.getUserPassword().getBytes(StandardCharsets.UTF_8), salt);
+      String tempPassword = hashing(userDto.getUserPassword().getBytes(StandardCharsets.UTF_8),
+          salt);
       if (userInfo.getUserPassword().equals(tempPassword)) {
         return true;
       } else {

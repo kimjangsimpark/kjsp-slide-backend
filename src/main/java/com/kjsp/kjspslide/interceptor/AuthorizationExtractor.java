@@ -8,10 +8,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthorizationExtractor {
 
-  public static final String AUTHORIZATION = "Authorization";
-
-  public String extract(HttpServletRequest request, String type) {
-    Enumeration<String> headers = request.getHeaders(AUTHORIZATION);
+  public String extractToken(HttpServletRequest request, String type, String header) {
+    Enumeration<String> headers = request.getHeaders(header);
     while (headers.hasMoreElements()) {
       String value = headers.nextElement();
       if (value.toLowerCase().startsWith(type.toLowerCase())) {
