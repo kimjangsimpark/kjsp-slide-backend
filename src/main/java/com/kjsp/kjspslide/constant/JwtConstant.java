@@ -2,7 +2,8 @@ package com.kjsp.kjspslide.constant;
 
 public class JwtConstant {
 
-  public static final String JWT_EXPIRED_TOKEN = "expiredRefreshToken";
+  public static final String JWT_EXPIRED_REFRESH_TOKEN = "expiredRefreshToken";
+  public static final String JWT_EXPIRED_ACCESS_TOKEN = "expiredAccessToken";
   public static final String JWT_TOKEN_TYPE = "Bearer";
   public static final String JWT_SUBJECT_TEXT = "subject";
   public static final String JWT_ACCESS_TOKEN_TEXT = "accessToken";

@@ -42,7 +42,7 @@ public class UserInfoController {
   ) {
     if (httpServletRequest.getAttribute(JwtConstant.JWT_SUBJECT_TEXT) != null
         && httpServletRequest.getAttribute(JwtConstant.JWT_SUBJECT_TEXT)
-        .equals(JwtConstant.JWT_EXPIRED_TOKEN)) {
+        .equals(JwtConstant.JWT_EXPIRED_ACCESS_TOKEN)) {
 
       Map<String, String> token = userAuthService.createAccessToken(userDto);
 
@@ -52,7 +52,9 @@ public class UserInfoController {
               .refreshToken(token.get(JwtConstant.JWT_REFRESH_TOKEN_TEXT))
               .tokenType(JwtConstant.JWT_TOKEN_TYPE).build(),
           HttpStatus.OK);
-    } else if (httpServletRequest.getAttribute(JwtConstant.JWT_SUBJECT_TEXT) == null) {
+    } else if (httpServletRequest.getAttribute(JwtConstant.JWT_SUBJECT_TEXT).equals(
+        JwtConstant.JWT_EXPIRED_REFRESH_TOKEN
+    )) {
       // 403 : 모든 토큰이 만료되었거나 정보가 없을 때 재 로그인
       return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }

@@ -31,9 +31,10 @@ public class BearerAuthInterceptor implements HandlerInterceptor {
       String refreshToken = authExtractor.extractToken(request, JwtConstant.JWT_TOKEN_TYPE,
           JwtConstant.JWT_HEADER_REFRESH_TOKEN);
       if (!jwtTokenProvider.validateRefreshToken(refreshToken)) {
-        request.setAttribute(JwtConstant.JWT_SUBJECT_TEXT, JwtConstant.JWT_EXPIRED_TOKEN);
+        request.setAttribute(JwtConstant.JWT_SUBJECT_TEXT, JwtConstant.JWT_EXPIRED_REFRESH_TOKEN);
         return true;
       }
+      request.setAttribute(JwtConstant.JWT_SUBJECT_TEXT, JwtConstant.JWT_EXPIRED_ACCESS_TOKEN);
       return true;
     }
 
