@@ -1,8 +1,5 @@
 # Start with a base image containing Java runtime
 FROM java:8
-# root 권한으로 실행되지 않도록 사용자 그룹 추가.
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
 
 # Add Author info
 LABEL maintainer="preandero@gmail.com"
