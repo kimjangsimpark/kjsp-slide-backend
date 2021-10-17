@@ -54,4 +54,4 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: FOO
-          script: docker pull ${{ secrets.DOCKER_HUB_SUYEONG_USERNAME }}/kjsp-slide:latest && cd /workspaces/kjsp-slide && git pull && docker-compose up -d
+          script: docker pull ${{ secrets.DOCKER_HUB_SUYEONG_USERNAME }}/kjsp-slide:latest && cd /workspaces/kjsp-slide && docker-compose up -d
